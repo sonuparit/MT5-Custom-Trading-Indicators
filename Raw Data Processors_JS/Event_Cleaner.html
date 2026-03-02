@@ -1,107 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Event Cleaner</title>
-<style>
-  body { font-family: Arial, sans-serif; margin: 20px; }
-  textarea { width: 100%; height: 200px; margin-bottom: 10px; }
-  button { padding: 10px 15px; margin: 5px 5px 15px 0; }
-  label { margin-right: 10px; }
-  pre { background: #f4f4f4; padding: 10px; white-space: pre-wrap; }
-</style>
-</head>
-<body>
-<h2>HTML Event Table Cleaner</h2>
-<p>Paste your raw HTML table below:</p>
-<textarea id="input"></textarea><br>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Event Cleaner</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      textarea {
+        width: 100%;
+        height: 200px;
+        margin-bottom: 10px;
+      }
+      button {
+        padding: 10px 15px;
+        margin: 5px 5px 15px 0;
+      }
+      label {
+        margin-right: 10px;
+      }
+      pre {
+        background: #f4f4f4;
+        padding: 10px;
+        white-space: pre-wrap;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>HTML Event Table Cleaner</h2>
+    <p>Paste your raw HTML table below:</p>
+    <textarea id="input"></textarea><br />
 
-<label>Start Time: <input type="time" id="startTime" value="17:56"></label>
-<label>End Time: <input type="time" id="endTime" value="23:00"></label><br><br>
+    <label
+      >Start Time: <input type="time" id="startTime" value="17:56"
+    /></label>
+    <label>End Time: <input type="time" id="endTime" value="23:00" /></label
+    ><br /><br />
 
-<button onclick="process()">Process</button>
-<button onclick="download()">Download .txt</button>
+    <button onclick="process()">Process</button>
+    <button onclick="download()">Download .txt</button>
 
-<h3>Output:</h3>
-<pre id="output"></pre>
+    <h3>Output:</h3>
+    <pre id="output"></pre>
 
-<script>
-let results = [];
-
-function process() {
-    const input = document.getElementById("input").value;
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(input, "text/html");
-
-    const rows = doc.querySelectorAll("tr");
-    let currentDate = null;
-    results = [];
-
-    // get filter times
-    const [startH, startM] = document.getElementById("startTime").value.split(":").map(Number);
-    const [endH, endM] = document.getElementById("endTime").value.split(":").map(Number);
-    const minMinutes = startH * 60 + startM;
-    const maxMinutes = endH * 60 + endM;
-
-    rows.forEach(tr => {
-        const tds = tr.querySelectorAll("td");
-        if (!tds.length) return;
-
-        // Case 1: Date row
-        if (tds.length === 1 && tds[0].textContent.includes(",")) {
-            const text = tds[0].textContent.trim();
-            const parsed = new Date(text);
-            if (!isNaN(parsed)) currentDate = parsed;
-        }
-        // Case 2: Event row
-        else if (currentDate && tds.length > 3) {
-            const timeStr = tds[0].textContent.trim();
-            const [hh, mm] = timeStr.split(":").map(Number);
-            if (isNaN(hh) || isNaN(mm)) return;
-
-            // event datetime
-            const dt = new Date(currentDate);
-            dt.setHours(hh, mm, 0, 0);
-
-            // filter by time
-            const eventMinutes = hh * 60 + mm;
-            if (eventMinutes < minMinutes || eventMinutes > maxMinutes) return;
-
-            // country
-            const country = tds[1].textContent.trim();
-
-            // event name (from link if available)
-            const eventName = (tds[3].querySelector("a")?.textContent || tds[3].textContent).trim();
-
-            // formatted datetime → YYYY.MM.DD HH:MM:SS
-            const formattedDate = dt.getFullYear().toString().padStart(4,"0") + "." +
-                                  (dt.getMonth()+1).toString().padStart(2,"0") + "." +
-                                  dt.getDate().toString().padStart(2,"0") + " " +
-                                  dt.getHours().toString().padStart(2,"0") + ":" +
-                                  dt.getMinutes().toString().padStart(2,"0") + ":00";
-
-            results.push(`${country}, ${eventName}\n${formattedDate}`);
-        }
-    });
-
-    document.getElementById("output").textContent = results.join("\n");
-}
-
-function download() {
-    if (!results.length) {
-        alert("No processed results to download. Click 'Process' first.");
-        return;
-    }
-    const blob = new Blob([results.join("\n")], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "events.txt";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-}
-</script>
-</body>
+    <script src="./Events.js"></script>
+  </body>
 </html>
