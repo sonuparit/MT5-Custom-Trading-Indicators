@@ -15,7 +15,7 @@
 ## 📑 Table of Contents
 - **[Overview](#-overview)**
 - **[Architecture](#️-architecture)**
-- **[Data Processors](#-indicators)**
+- **[Data Processors](#-data-processors)**
 - **[Indicators](#-indicators)**
 - **[Engineering Highlights](#️-key-engineering-highlights)**
 - **[Challenges & Decisions](#-challenges--decisions)**

@@ -18,81 +18,7 @@ dependencies**, making them easy to use for quick data extraction and cleanup ta
 
 ---
 
-# 1. Event Cleaner
-
-## Overview
-
-**Event Cleaner** processes a raw HTML table containing scheduled events
-and converts it into a structured text format.
-
-It extracts: - Event date - Event time - Country - Event name
-
-It also allows filtering events within a **specific time range**.
-
-## Key Features
-
-- Paste raw HTML table data
-- Automatically parse `<tr>` rows
-- Detect and store event dates
-- Extract event time, country, and event name
-- Filter events using start and end time
-- Format output into a clean readable structure
-- Download processed results as `.txt`
-
-## How It Works
-
-### HTML Parsing
-
-The script uses:
-
-DOMParser()
-
-to convert the pasted HTML string into a DOM document that can be
-queried using JavaScript selectors.
-
-### Row Processing
-
-Each `<tr>` row is analyzed to determine whether it represents:
-
-1.  **A date row**
-2.  **An event row**
-
-Date rows update the current working date.
-
-Event rows extract: - Time - Country - Event name
-
-### Time Filtering
-
-Events are filtered using the selected time range.
-
-The time is converted to **total minutes since midnight**:
-
-eventMinutes = hours \* 60 + minutes
-
-Only events within the user-defined range are kept.
-
-### Date Formatting
-
-The final output is formatted as:
-
-YYYY.MM.DD HH:MM:SS
-
-Example:
-
-USA, Non‑Farm Payrolls 2026.03.02 20:30:00
-
-### Output
-
-The processed results are stored in memory and displayed in the
-interface.
-
-Users can download the results as:
-
-events.txt
-
----
-
-# 2. TR Block Remover
+# 1. TR Block Remover
 
 ## Overview
 
@@ -179,6 +105,80 @@ cleaned_table.html
 
 ---
 
+# 2. Event Cleaner
+
+## Overview
+
+**Event Cleaner** processes a raw HTML table containing scheduled events
+and converts it into a structured text format.
+
+It extracts: - Event date - Event time - Country - Event name
+
+It also allows filtering events within a **specific time range**.
+
+## Key Features
+
+- Paste raw HTML table data
+- Automatically parse `<tr>` rows
+- Detect and store event dates
+- Extract event time, country, and event name
+- Filter events using start and end time
+- Format output into a clean readable structure
+- Download processed results as `.txt`
+
+## How It Works
+
+### HTML Parsing
+
+The script uses:
+
+DOMParser()
+
+to convert the pasted HTML string into a DOM document that can be
+queried using JavaScript selectors.
+
+### Row Processing
+
+Each `<tr>` row is analyzed to determine whether it represents:
+
+1.  **A date row**
+2.  **An event row**
+
+Date rows update the current working date.
+
+Event rows extract: - Time - Country - Event name
+
+### Time Filtering
+
+Events are filtered using the selected time range.
+
+The time is converted to **total minutes since midnight**:
+
+eventMinutes = hours \* 60 + minutes
+
+Only events within the user-defined range are kept.
+
+### Date Formatting
+
+The final output is formatted as:
+
+YYYY.MM.DD HH:MM:SS
+
+Example:
+
+USA, Non‑Farm Payrolls 2026.03.02 20:30:00
+
+### Output
+
+The processed results are stored in memory and displayed in the
+interface.
+
+Users can download the results as:
+
+events.txt
+
+---
+
 # Architecture
 
 Both tools follow the same simple architecture:
@@ -220,9 +220,3 @@ These tools are useful for:
 - No server dependency
 - Lightweight and fast
 - Easy to customize
-
----
-
-# License
-
-Free to use and modify.
