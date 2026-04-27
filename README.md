@@ -12,7 +12,10 @@
 - Data aggregation and state tracking
 - Operational guardrails and automation
 
+![alt text](Screenshots/ss01.jpg)
+
 ## 📑 Table of Contents
+
 - **[Overview](#-overview)**
 - **[Architecture](#️-architecture)**
 - **[Data Processors](#-data-processors)**
@@ -29,6 +32,7 @@
 *Each indicator operates on live data, maintains internal state, and reacts to events — **`similar to how production systems monitor metrics, detect anomalies, and trigger alerts`**.*
 
 Key capabilities demonstrated:
+
 - Event-driven system design
 - Real-time data processing
 - Stateful monitoring and aggregation
@@ -36,13 +40,14 @@ Key capabilities demonstrated:
 - Custom tooling for workflow automation
 
 ### Indicators
--   **Color-timer-spread**\
+
+- **Color-timer-spread**\
     *Displays candle countdown timers, monitors spread conditions, and provides configurable alerts with visual feedback on charts.*
--   **Event-lines**\
+- **Event-lines**\
     *Converts external timing data into visual event markers with advance alerting for upcoming events.*
--   **Pips-counter**\
+- **Pips-counter**\
     *Tracks daily and weekly performance metrics, including profit/loss and trade activity, using real-time aggregation.*
--   **Trade-alert**\
+- **Trade-alert**\
     *Monitors key price levels and triggers intelligent alerts based on proximity, thresholds, and validation logic.*
 
 ## 🏗️ Architecture
@@ -64,6 +69,7 @@ Key capabilities demonstrated:
     ```
 
 Design characteristics:
+
 - **Reactive processing** → responds only to meaningful events
 - **Stateful logic** → maintains context across ticks (e.g., thresholds, trade stats)
 - **Controlled alerting** → avoids noise through validation and one-time triggers
@@ -78,13 +84,14 @@ Stream-processing systems
 ## 🧩 Data Processors
 
 **How it works:**
--   Raw data from investing.com:
+
+- Raw data from investing.com:
     ![alt text](./Raw%20Data%20Processors_JS/investing.com.png)
--   Processing by Data Processors:
+- Processing by Data Processors:
     ![alt text](./Raw%20Data%20Processors_JS/JS.png)
--   Final Output:
+- Final Output:
     ![alt text](./Raw%20Data%20Processors_JS/events.png)
--   **`Event-lines.mq5`** Reads the structured event data
+- **`Event-lines.mq5`** Reads the structured event data
     ![alt text](Screenshots/events.jpg)
 
 To support the indicators, I built **lightweight JavaScript-based preprocessing tools** to clean, transform, and structure external data before feeding it into the system.
@@ -146,107 +153,111 @@ before they can be reliably processed by monitoring and alerting systems.
 
 ### 1. Color-timer-spread.mq5
 
-#### Purpose:
+#### Purpose
+
 A **real-time monitoring indicator** that provides time-sensitive and spread-related insights directly on the chart.
 
 Acts like a **`live metrics panel`**, helping users react to short-term market conditions without manual tracking.
 
 ![alt text](Screenshots/candle.png)
 
-#### Key Features:
+#### Key Features
 
 - Displays **remaining time** for the current candle
 - Candle close alert:
-    - Toggle-based alert activation
-    - Configurable lead time before close
+  - Toggle-based alert activation
+  - Configurable lead time before close
     ![alt text](Screenshots/Timer.jpg)
 - Spread alert system:
-    - Triggers when threshold is exceeded
-    - Visual (chart color change) + sound notification
-    - Designed to quickly highlight abnormal conditions
+  - Triggers when threshold is exceeded
+  - Visual (chart color change) + sound notification
+  - Designed to quickly highlight abnormal conditions
 - A dedicated color pallete to change the color of selected object on all open charts **(supporting "trade-alert.mq5" indicator)**
     ![alt text](<Screenshots/Line Change.jpg>)
 - Bid/Ask price visualization
 - **Context-aware behavior:**
-    - Disables unnecessary features on lower timeframes (M1)
-    - Enables bulk object selection tools when needed
+  - Disables unnecessary features on lower timeframes (M1)
+  - Enables bulk object selection tools when needed
 
 ### 2️⃣ Event-lines.mq5
 
-#### Purpose:
+#### Purpose
 
 A **time-based event visualization system** that converts external schedules into actionable chart markers.
 
 Useful for **tracking predefined events, similar to how scheduled jobs or external signals are handled in production systems**.
 
-#### Key Features:
+#### Key Features
 
 - Reads structured **event data from external files**
     ![alt text](Screenshots/events.jpg)
 - Translates timestamps into chart-based event markers
     ![alt text](Screenshots/Event-lines.jpg)
 - **Pre-event alerting system:**
-    - Configurable lead time
-    - Notifies before event occurrence
+  - Configurable lead time
+  - Notifies before event occurrence
 - **Fallback mechanism:**
-    - Defaults to session timings if external data is unavailable
-    - Ensures system reliability even with missing inputs
+  - Defaults to session timings if external data is unavailable
+  - Ensures system reliability even with missing inputs
 
 ### 3️⃣ Pips-counter.mq5
-#### Purpose:
+
+#### Purpose
 
 A **real-time performance monitoring system** that tracks trading activity and aggregates metrics directly on the chart.
 
 Functions similarly to a **lightweight observability dashboard.**
 
-#### Key Features:
+#### Key Features
 
 - **Tracks:**
-    - Daily profit/loss (pips and monetary value)
-    - Weekly aggregated performance
-    - Number of trades executed
+  - Daily profit/loss (pips and monetary value)
+  - Weekly aggregated performance
+  - Number of trades executed
 - **Event-based updates:**
-    - Refreshes metrics only when trades close
-    - Avoids unnecessary computation
+  - Refreshes metrics only when trades close
+  - Avoids unnecessary computation
 - **Aggregation logic:**
-    - Maintains rolling weekly statistics
-    - Combines multiple trade outcomes into summarized metrics
+  - Maintains rolling weekly statistics
+  - Combines multiple trade outcomes into summarized metrics
 - **Visual dashboard:**
-    - Displays all metrics using structured chart labels
+  - Displays all metrics using structured chart labels
     ![alt text](Screenshots/Pips_Counter.jpg)
+
         ```
                         Daily:  25.4 pips |  70.6$
         Trades Taken: 3  Weekly: 120.8 pips | 340.2$
         ```
+
 - **Integration support:**
-    - Triggers external scripts for per day trade limits as reminder
+  - Triggers external scripts for per day trade limits as reminder
 
 ### 4️⃣ Trade‑Alert
 
-#### Purpose:
+#### Purpose
 
 An **intelligent alerting system** that monitors key price levels and triggers alerts based on proximity and validation rules.
 
 Designed to act like a **rule-based monitoring system**, reducing unnecessary alerts while focusing on high-value signals.
 
-#### Key Features:
+#### Key Features
 
 - **Interactive alert control via on-chart button**
 - **Selective monitoring:**
-    - Tracks only specific objects (horizontal lines with defined colors)
-    - Uses color as a classification mechanism (Support / Resistance)
+  - Tracks only specific objects (horizontal lines with defined colors)
+  - Uses color as a classification mechanism (Support / Resistance)
 - **State-driven behavior:**
-    - Toggles alert activation
-    - Updates object metadata (tooltips, states)
+  - Toggles alert activation
+  - Updates object metadata (tooltips, states)
     ![alt text](Screenshots/Alerts.jpg)
 - **Alert validation logic:**
-    - Configurable sensitivity thresholds
-    - Optional candle pattern confirmation before triggering
+  - Configurable sensitivity thresholds
+  - Optional candle pattern confirmation before triggering
 - **Noise reduction:**
-    - One-time alert per level (prevents repeated triggers)
-    - Focuses only on actionable conditions
+  - One-time alert per level (prevents repeated triggers)
+  - Focuses only on actionable conditions
 - **Zone-based detection:**
-    - Defines valid proximity range before alerting
+  - Defines valid proximity range before alerting
 
 ## ⚙️ Key Engineering Highlights
 
@@ -275,6 +286,7 @@ Key decisions:
 These indicators were built to **solve real operational challenges in a live trading environment**, where decisions depend on timely and accurate information.
 
 They address problems such as:
+
 - Monitoring rapidly changing conditions
 - Tracking performance in real time
 - Detecting meaningful events
@@ -283,6 +295,7 @@ They address problems such as:
 To support this, I also **built data preprocessing tools** to clean and structure external inputs before they enter the system — ensuring reliability and consistency across the pipeline.
 
 The same principles directly apply to **DevOps and SRE environments**, where systems must:
+
 - Ingest and process raw data (logs, metrics, events)
 - Filter and normalize noisy or inconsistent inputs
 - Detect anomalies or important signals
