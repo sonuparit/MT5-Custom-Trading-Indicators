@@ -1,4 +1,4 @@
-# MetaTrader 5 Custom Indicators (MQL5)
+# 🚀 MetaTrader 5 Custom Indicators (MQL5)
 
 > [!NOTE]
 > This is not a single indicator — with time I built a collection of more than 10+ MQL5 tools, each built to solve a specific trading or chart analysis problem.
@@ -20,12 +20,11 @@
 ## 📑 Table of Contents
 
 - [Overview](#-overview)
-- [Indicators](#-indicators)
 - [Architecture](#️-architecture)
 - [Data Processors](#-data-processors)
 - [Indicators](#-indicators)
-- [Engineering Highlights](#️-key-engineering-highlights)
-- [Why This Matters for DevOps](#-why-this-project-matters-for-devops)
+- [Engineering Highlights](#️-engineering-highlights)
+- [Why This Matters for DevOps](#-why-this-matters-for-devops)
 
 ## 📌 Overview
 
@@ -33,7 +32,7 @@
 
 *Each indicator operates on live data, maintains internal state, and reacts to events — similar to how production systems monitor metrics, detect anomalies, and trigger alerts.*
 
-## 📊 Indicators
+### Indicators
 
 - **Color-timer-spread**\
     *Displays candle countdown timers, monitors spread conditions, and provides configurable alerts with visual feedback on charts.*
@@ -148,7 +147,7 @@ Engineering relevance:
 
 - before they can be reliably processed by monitoring and alerting systems.
 
-## 🧩 Indicators
+## 📊 Indicators
 
 ### 1. Color-timer-spread.mq5
 
@@ -273,7 +272,7 @@ Designed to act like a **rule-based monitoring system**, reducing unnecessary al
 - **Zone-based detection:**
   - Defines valid proximity range before alerting
 
-## ⚙️ Key Engineering Highlights
+## ⚙️ Engineering Highlights
 
 - **Designed event-driven systems**\
 reacting to live data instead of constant polling
@@ -293,7 +292,7 @@ to handle unstructured external data
 - **Optimized execution to ensure efficient performance**\
 under continuous real-time conditions
 
-## 🚀 Why This Project Matters for DevOps
+## 🧠 Why This Matters for DevOps
 
 These indicators were built to solve real operational challenges in a live trading environment, where decisions depend on timely and accurate information.
 
